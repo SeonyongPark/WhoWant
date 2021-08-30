@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="kor">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'signup.css' %}">
+
+    <title>Signup Form</title>
+</head>
+
+<body>
+{% if num == 1%}
+    <script this.onclick=null;>
+        alert("회원가입 후 이메일 인증절차가 있습니다! 멋사분들이 실제로 사용하는 이메일로 회원가입을 해주세요! 만약 피후원자 입장에서 인증을 진행하시려면 이름을 홍길동으로 하면 편합니다!");
+    </script>
+{% endif %}
+{% if error == "error" %}
+<script>
+    alert("아이디가 중복되었습니다!");
+</script>
+{% elif msg == 'NOTSAME_PW'%}
+<script>
+    alert("패스워드가 일치하지 않습니다.")
+</script>
+{% endif %}
+<div class="LOGOBox">
+    <div class="LOGO"><a style = "text-decoration:none;" href = "{% url 'user_info:home' %}">Who<span>Want</span></a></div>
+</div>
+<form action="{% url 'user_info:signup' %}" method="POST">
+    {% csrf_token %}
+<div class="Box">
+    <table class="Login-form">
+        <tr class="Login-table-content">
+            <td class="Login-table-text">
+                <span><b>이름</b></span>
+            </td>
+            <td class="Login-table-input">
+                <input placeholder="김후원" type="text" name = "user_name">
+            </td>
+        </tr>
+        <tr class="Login-table-content">
+            <td class="Login-table-text">
+                <span><b>닉네임</b></span>
+            </td>
+            <td class="Login-table-input">
+                <input placeholder="닉네임" type="text" name = "user_nickname">
+            </td>
+        </tr>
+        <tr class="Login-table-content">
+            <td class="Login-table-text">
+                <span><b>이메일</b></span>
+            </td>
+            <td class="Login-table-input">
+                <input placeholder="email@naver.com" type="text" name = "user_email">
+            </td>
+        </tr>
+        <tr class="Login-table-content">
+            <td class="Login-table-text">
+                <span><b>연락처</b></span>
+            </td>
+            <td class="Login-table-input">
+                <input placeholder="010-0000-0000" type="text" name = "user_num">
+            </td>
+        </tr>
+        <tr class="Login-table-content">
+            <td class="Login-table-text">
+                <span><b>비밀번호</b></span>
+            </td>
+            <td class="Login-table-input">
+                <input  placeholder="●●●●●●●" type="password" name = "user_pw1">
+            </td>
+        </tr>
+        <tr class="Login-table-content">
+            <td class="Login-table-text">
+                <span><b>비밀번호<br>재입력</b></span>
+            </td>
+            <td class="Login-table-input">
+                <input  placeholder="●●●●●●●" type="password" name = "user_pw2">
+            </td>
+        </tr>
+        <tr class="Login-table-content">
+            <td class="Login-table-text">
+                <span><b>계좌번호</b></span>
+            </td>
+            <td class="Login-table-input">
+                <input placeholder="은행이름" type="text" name = "user_acname">
+                <input placeholder="000-00000-00000" type="text" name = "user_acnum">
+            </td>
+        </tr>
+
+    </table>
+    <button type="submit" class="btn">회원가입</button>
+</form>
+    <table class="new-login" border="1" bordercolor="black" frame="void" rules="cols">
+        <tr>
+            <td>
+                <a href="{% url 'user_info:recovery_id' %}">아이디찾기</a>
+            </td>
+            <td>
+                <a href="{% url 'user_info:recovery_pw' %}">비밀번호찾기</a>
+            </td>
+        </tr>
+    </table>
+
+</div>
+
+</body>
+</html>

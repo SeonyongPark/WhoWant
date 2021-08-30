@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'findID.css' %}">
+    <title>Document</title>
+</head>
+<div class="LOGOBox">
+    <div class="LOGO"><a style="text-decoration: none;" href="{% url 'user_info:home' %}">Who<span>Want</span></a>
+    </div>
+</div>
+
+<body>
+    <div class="Box">
+        {% csrf_token %}
+        <!--이메일-->
+        <table class = "Login-form">
+            <h3>아이디 찾기!</h3>
+            <tr class="Login-table-content">
+                <td class="Login-table-text">
+                    <span><b>{{form_id.phone.label}}</b></span>
+                </td>
+                <td class="Login-table-input">
+                    {{form_id.phone}}
+                </td>
+            </tr>
+        </table>
+        <button id="find_id" type="submit" class="btn">확인!</button>    
+
+        <br>
+        <div id="result_id"></div>
+    </div>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.11.0/js/mdb.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#find_id').click(function () {
+                var phone = $("#form_phone").val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "find/",
+                    dataType: "json",
+                    data: {
+                        'phone': phone,
+                        'csrfmiddlewaretoken': '{{csrf_token}}',
+                    },
+                    success: function (response) {
+                        $('#result_id').replaceWith(
+                            '<div id="result_id"><hr><div style="text-align:center;"><span style="font-size: 16px;">입력된 정보로 가입된 아이디는 </span><span style="font-size: 20px; font-weight: bold;" id="result_id">' + response.result_id +
+                            '</span><span style="font-size: 16px;"> 입니다.</span></div><hr></div>')
+                    },
+                    error: function () {
+                        if (phone == "") {
+                            alert('휴대폰 번호를 입력해주세요.');
+                        } else {
+                            alert('입력하신 정보가 일치하지 않거나 존재하지 않습니다.');
+                        }
+                    },
+                });
+            })
+        });
+    </script>
+    <!-- No AJAX
+    {% if result_id %}
+    <h5>회원님의 아이디는 <strong>{{ result_id }}</strong>입니다.</h5>
+    {% endif %} -->
+</body>
+
+</html>

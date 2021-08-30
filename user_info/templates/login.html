@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="kor">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'login.css' %}">
+    <title>Login Form</title>
+</head>
+
+<body>
+    {% if msg == 'error' %}
+    <script>
+        alert("이메일 또는 패스워드가 틀렸습니다.")
+        window.location.href = "{% url 'user_info:login_view' %}"
+    </script>
+    {% elif msg == 'success'%}
+    <script>
+        alert("비밀번호 변경완료! 변경된 비밀번호로 로그인하세요.")
+        window.location.href = "{% url 'user_info:login_view' %}"
+    </script>
+    {% endif %}
+<div class="LOGOBox">
+    <div class="LOGO"><a style="text-decoration: none;" href="{% url 'user_info:home' %}">Who<span>Want</span></a></div>
+</div>
+<div class="Box">
+    <form method="POST" action="{% url 'user_info:login_view' %}">
+        {% csrf_token %}
+    <table class="Login-form">
+        <tr class="Login-table-content">
+            <td class="Login-table-text">
+                <span><b>이메일</b></span>
+            </td>
+            <td class="Login-table-input">
+                <input placeholder="email@naver.com" type="email" name="userid">
+            </td>
+        </tr>
+        <tr class="Login-table-content">
+            <td class="Login-table-text">
+                <span><b>비밀번호</b></span>
+            </td>
+            <td class="Login-table-input">
+                <input placeholder="●●●●●●●" type="Password" name="userpw">
+            </td>
+        </tr>
+    </table>
+    <button type="submit" class="btn" >로그인</button>
+    </form>
+    <table class="new-login" border="1" bordercolor="black" frame="void" rules="cols">
+        <tr>
+            <td>
+                <a href="{% url 'user_info:signup' %}">회원가입</a>
+            </td>
+            <td>
+                <a href="{% url 'user_info:recovery_id' %} ">아이디찾기</a>
+            </td>
+            <td>
+                <a href="{% url 'user_info:recovery_pw' %}">비밀번호찾기</a>
+            </td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>
